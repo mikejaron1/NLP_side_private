@@ -9,6 +9,9 @@ import os
 
 ## get current working directory
 cwd = os.getcwd()
+articles = cwd+'/articles/'
+if not os.path.exists(articles):
+    os.makedirs(articles)
 
 #specify the url
 base_url = "http://www.cnn.com/"
@@ -31,40 +34,46 @@ page_links = []
 all_links = soup.find_all('a')
 for link in all_links:
 	link = link.get('href')
+	# print link
 	## setting condition that we don't want any videos and only full links
 	if 'videos' not in link and '.html' in link:
 		page_links.append(base_url+link)
+# print len(page_links)
 
-for link in page_links[:5]:
+for link in page_links[:1]:
 	# link = "http://www.cnn.com/2016/11/03/politics/squirrel-voting-outage/index.html"
+	link = "http://www.cnn.com//2016/11/03/politics/election-2016-world-series/index.html"
 	print link
 	## do the same thing as above
 	page = urllib2.urlopen(link)
 	soup = BeautifulSoup(page, "html.parser")
+	# print soup.prettify(encoding='utf-8')
 	title = soup.title.string
+	# print title
 	## seems the first paragraph starts like this
 	start = soup.find('p', attrs={'class': 'zn-body__paragraph'})
 	## need to manually slice it up
 	start = str(start)
 	start = start[start.find('</cite>')+7:start.find('</p>')]
 	## Open a txt file and write the text to it line by line
-	with open(cwd+'/articles/'+title+'.txt', 'w') as the_file:
+	
+	with open(articles+title+'.txt', 'w') as the_file:
 		the_file.write(str(start))
 		## find every paragraph set and write the text to it
 		for i in soup.find_all('div', attrs={'class': 'zn-body__paragraph'}):
-			text =  i.text.encode('utf-8')
-			the_file.write(text)
+			# print i
+			# text =  i.text.encode('utf-8')
+			# print text
+			# the_file.write(text)
 
 			## tring to get rid of random links I have examples
-			# if 'href' in str(i):
-			# 	print i
-				# text = i.string.encode('utf-8')
-				# print i.text
-				# print text
-				
-			# else:
-				# print i.find('a')
+			if 'href' in str(i):
+				if "target" in str(i):
+					text = i.string.encode('utf-8')
+			else:
+				text = i.string.encode('utf-8')
 
+			print text
 				# the_file.write(text)
 		# print soup.prettify(encoding='utf-8')
 		
