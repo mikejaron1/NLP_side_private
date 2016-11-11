@@ -42,7 +42,7 @@ for link in all_links:
 
 for link in page_links[:1]:
 	# link = "http://www.cnn.com/2016/11/03/politics/squirrel-voting-outage/index.html"
-	link = "http://www.cnn.com//2016/11/03/politics/election-2016-world-series/index.html"
+	# link = "http://www.cnn.com//2016/11/03/politics/election-2016-world-series/index.html"
 	print link
 	## do the same thing as above
 	page = urllib2.urlopen(link)
@@ -61,7 +61,7 @@ for link in page_links[:1]:
 		the_file.write(str(start))
 		## find every paragraph set and write the text to it
 		for i in soup.find_all('div', attrs={'class': 'zn-body__paragraph'}):
-			# print i
+			print i
 			# text =  i.text.encode('utf-8')
 			# print text
 			# the_file.write(text)
@@ -69,12 +69,16 @@ for link in page_links[:1]:
 			## tring to get rid of random links I have examples
 			if 'href' in str(i):
 				if "target" in str(i):
-					text = i.string.encode('utf-8')
+					# print 'here'
+					# print i
+					text = i.text.encode('utf-8')
+					print text
+					the_file.write(text)
 			else:
-				text = i.string.encode('utf-8')
-
-			print text
-				# the_file.write(text)
-		# print soup.prettify(encoding='utf-8')
+				text = i.text.encode('utf-8')
+				# print text
+				the_file.write(text)
+			## write each line to the file
+			# the_file.write(text)
 		
 
