@@ -38,47 +38,45 @@ for link in all_links:
 	## setting condition that we don't want any videos and only full links
 	if 'videos' not in link and '.html' in link:
 		page_links.append(base_url+link)
-# print len(page_links)
+	## get only unique page links, aka get rid of duplicates
+	## aslo make it back to a list so it can be looped through
+	page_links = list(set(page_links))
+print len(page_links), " total page links to go through"
 
-for link in page_links[:1]:
-	# link = "http://www.cnn.com/2016/11/03/politics/squirrel-voting-outage/index.html"
-	# link = "http://www.cnn.com//2016/11/03/politics/election-2016-world-series/index.html"
+## start a counter to see how many articles we actually got
+count = 0
+for link in page_links:
 	print link
 	## do the same thing as above
-	page = urllib2.urlopen(link)
+
+	## try the link, if the link doesnt exist break the for loop and go to next link
+	try:
+		page = urllib2.urlopen(link)
+		count += 1 ## if the page works add 1 to the count
+	except:
+		break
 	soup = BeautifulSoup(page, "html.parser")
 	# print soup.prettify(encoding='utf-8')
 	title = soup.title.string
-	# print title
 	## seems the first paragraph starts like this
 	start = soup.find('p', attrs={'class': 'zn-body__paragraph'})
 	## need to manually slice it up
 	start = str(start)
 	start = start[start.find('</cite>')+7:start.find('</p>')]
 	## Open a txt file and write the text to it line by line
-	
 	with open(articles+title+'.txt', 'w') as the_file:
 		the_file.write(str(start))
 		## find every paragraph set and write the text to it
 		for i in soup.find_all('div', attrs={'class': 'zn-body__paragraph'}):
-			print i
-			# text =  i.text.encode('utf-8')
-			# print text
-			# the_file.write(text)
 
 			## tring to get rid of random links I have examples
 			if 'href' in str(i):
 				if "target" in str(i):
-					# print 'here'
-					# print i
 					text = i.text.encode('utf-8')
-					print text
 					the_file.write(text)
 			else:
 				text = i.text.encode('utf-8')
-				# print text
 				the_file.write(text)
-			## write each line to the file
-			# the_file.write(text)
-		
+				
+print count, "total pages actually scraped"
 
