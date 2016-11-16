@@ -45,7 +45,7 @@ print len(page_links), " total page links to go through"
 
 ## start a counter to see how many articles we actually got
 count = 0
-for link in page_links[:]:
+for link in page_links:
 	print link
 	## do the same thing as above
 
