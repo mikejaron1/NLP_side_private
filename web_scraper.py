@@ -34,7 +34,7 @@ page_links = []
 all_links = soup.find_all('a')
 for link in all_links:
 	link = link.get('href')
-	# print link
+	print type(link)
 	## setting condition that we don't want any videos and only full links
 	if 'videos' not in link and '.html' in link:
 		page_links.append(base_url+link)

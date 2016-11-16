@@ -12,7 +12,8 @@ all_links = soup.find_all('a')
 for link in all_links: 
 	link = link.get("href")
 	# print link
-	## I don't think there are links with 'videos' in the title 
 	if '.html' in link:
 		page_links.append(base_url+link)
 # print page_links
+print page_links
+print(soup.get_text())
