@@ -11,9 +11,7 @@ page_links = []
 all_links = soup.find_all('a')
 for link in all_links: 
 	link = link.get("href")
-	# print link
-	if '.html' in link:
+	print type (link)
+	if 'video' not in link and '.html' in link:
 		page_links.append(base_url+link)
-# print page_links
-print page_links
-print(soup.get_text())
+print len(page_links), " total page links to go through"
