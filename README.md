@@ -1,2 +1,2 @@
-# NLP_side_private
+# NLP Side Project
 Small side project, built webscrapers and analyzed text
